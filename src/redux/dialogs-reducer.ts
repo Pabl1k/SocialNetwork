@@ -1,9 +1,34 @@
 import {v1} from "uuid";
 import {DialogsPageType} from "./store";
 
-enum ACTION_TYPE {
+export enum DIALOGS_ACTION_TYPE {
     ADD_NEW_DIALOGS_MESSAGE = 'ADD-NEW-DIALOGS-MESSAGE',
     UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-DIALOGS-MESSAGE'
+}
+
+type AddNewDispatchType = {
+    type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE
+}
+
+type UpdateNewDispatchType = {
+    type: DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY
+    body: string
+}
+
+export type DialogsDispatchType = AddNewDispatchType | UpdateNewDispatchType
+
+type DialogsUsersType = {
+    id: string
+    name: string
+}
+type MessageType = {
+    id: string
+    message: string
+}
+type DialogsStateType = {
+    dialogs: Array<DialogsUsersType>
+    messages: Array<MessageType>
+    newDialogsMessage: string
 }
 
 let initialState = {
@@ -25,38 +50,34 @@ let initialState = {
     newDialogsMessage: ''
 }
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
-
-    let stateCopy = {...state};
-    stateCopy.messages = [...state.messages];
-
+const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
     switch (action.type) {
-        case ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY: {
-            let stateCopy = {...state}
-            stateCopy.newDialogsMessage = action.body;
-            return stateCopy;
+        case DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY: {
+            return {
+                ...state,
+                newDialogsMessage: action.body
+            };
         }
-        case ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE:
+        case DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE:
             let stateCopy = {...state};
             let body = stateCopy.newDialogsMessage;
-            stateCopy.newDialogsMessage = '';
-            stateCopy.messages = [...state.messages];
-            stateCopy.messages.push({id: v1(), message: body});
-            return stateCopy;
+            return {
+                ...state,
+                newDialogsMessage: '',
+                messages: [...state.messages, {id: v1(), message: body}]
+            };
         default:
             return state;
     }
 }
-export const AddNewDialogsPageMessageAC = (newMessage: string) => {
+export const AddNewDialogsPageMessageAC = ():AddNewDispatchType => {
     return {
-        type: ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE,
-        newMessage: newMessage
+        type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE
     } as const
 }
-
-export const updateNewDialogsPageMessageAC = (body: string) => {
+export const updateNewDialogsPageMessageAC = (body: string): UpdateNewDispatchType => {
     return {
-        type: ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY,
+        type: DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY,
         body: body
     } as const
 }
