@@ -11,7 +11,7 @@ type PropsType = {
 
 const MyPosts: React.FC<PropsType> = (props) => {
     let postElements =
-        props.profilePage.posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>);
+        props.profilePage.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     let newPostElementRef = React.createRef<any>();
 

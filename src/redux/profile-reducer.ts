@@ -1,8 +1,10 @@
 import {v1} from "uuid";
 import {PostsType, ProfilePageType} from "./store";
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+enum ACTION_TYPE {
+    ADD_POST = 'ADD-POST',
+    UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+}
 
 let initialState = {
     posts: [
@@ -12,35 +14,39 @@ let initialState = {
         {id: v1(), message: 'Dada', likesCount: 11}
     ],
     newPostText: ''
-}
+};
 
 const profileReducer = (state: ProfilePageType = initialState, action: any) => {
     switch (action.type) {
-        case ADD_POST:
+        case ACTION_TYPE.ADD_POST:{
             const newPost: PostsType = {
                 id: v1(),
                 message: state.newPostText,
                 likesCount: 0
             };
-            state.posts.unshift(newPost);
-            state.newPostText = '';
-            break;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText;
-            return state;
+            let stateCopy = {...state}
+            stateCopy.posts = [...state.posts];
+            stateCopy.posts.unshift(newPost)
+            stateCopy.newPostText = '';
+            return stateCopy;
+    }
+        case ACTION_TYPE.UPDATE_NEW_POST_TEXT:
+            let stateCopy = {...state}
+            stateCopy.newPostText = action.newText;
+            return stateCopy;
         default:
             return state;
     }
 }
 export const addPostAC = () => {
     return {
-        type: "ADD-POST",
+        type: ACTION_TYPE.ADD_POST
     } as const
 }
 
 export const updateNewPostTextPostAC = (newText: string) => {
     return {
-        type: 'UPDATE-NEW-POST-TEXT',
+        type: ACTION_TYPE.UPDATE_NEW_POST_TEXT,
         newText: newText
     } as const
 }

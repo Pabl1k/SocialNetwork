@@ -1,8 +1,10 @@
 import {v1} from "uuid";
 import {DialogsPageType} from "./store";
 
-const ADD_NEW_DIALOGS_MESSAGE = 'ADD-NEW-DIALOGS-MESSAGE'
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-DIALOGS-MESSAGE'
+enum ACTION_TYPE {
+    ADD_NEW_DIALOGS_MESSAGE = 'ADD-NEW-DIALOGS-MESSAGE',
+    UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-DIALOGS-MESSAGE'
+}
 
 let initialState = {
     dialogs: [
@@ -24,29 +26,37 @@ let initialState = {
 }
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
+
+    let stateCopy = {...state};
+    stateCopy.messages = [...state.messages];
+
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY:
-            state.newDialogsMessage = action.body;
-            return state;
-        case ADD_NEW_DIALOGS_MESSAGE:
-            let body = state.newDialogsMessage
-            state.newDialogsMessage = '';
-            state.messages.push({id: v1(), message: body});
-            return state;
+        case ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY: {
+            let stateCopy = {...state}
+            stateCopy.newDialogsMessage = action.body;
+            return stateCopy;
+        }
+        case ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE:
+            let stateCopy = {...state};
+            let body = stateCopy.newDialogsMessage;
+            stateCopy.newDialogsMessage = '';
+            stateCopy.messages = [...state.messages];
+            stateCopy.messages.push({id: v1(), message: body});
+            return stateCopy;
         default:
             return state;
     }
 }
 export const AddNewDialogsPageMessageAC = (newMessage: string) => {
     return {
-        type: ADD_NEW_DIALOGS_MESSAGE,
+        type: ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE,
         newMessage: newMessage
     } as const
 }
 
 export const updateNewDialogsPageMessageAC = (body: string) => {
     return {
-        type: UPDATE_NEW_MESSAGE_BODY,
+        type: ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY,
         body: body
     } as const
 }
