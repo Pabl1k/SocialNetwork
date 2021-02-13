@@ -13,15 +13,16 @@ const MyPosts: React.FC<PropsType> = (props) => {
     let postElements =
         props.profilePage.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount} key={p.id}/>);
 
-    let newPostElementRef = React.createRef<any>();
+    let newPostElementRef = React.createRef<HTMLTextAreaElement>();
 
     let onAddPost = () => {
         props.addPost()
     }
 
     let onPostChange = () => {
-        let text = newPostElementRef.current.value
-        props.updateNewPostText(text)
+        if (newPostElementRef.current){
+            props.updateNewPostText(newPostElementRef.current.value)
+        }
     }
     return (
         <div className={s.postsBlock}>
