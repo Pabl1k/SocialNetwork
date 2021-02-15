@@ -1,5 +1,3 @@
-import {v1} from "uuid";
-
 export enum USERS_ACTION_TYPE {
     FOLLOW = 'FOLLOW',
     UNFOLLOW = 'UNFOLLOW',
@@ -10,13 +8,16 @@ export type LocationType = {
     country: string
     city: string
 }
+type PhotoSize = {
+    small: any
+    large: any
+}
 export type UsersStateType = {
     id: string
-    photoUrl: string
-    fullName: string
+    photos: PhotoSize
+    name: string
     followed: boolean
-    status: string
-    location: LocationType
+    status: string | null
 }
 
 export type UsersReducerType = {
@@ -24,6 +25,10 @@ export type UsersReducerType = {
 }
 
 let initialState: UsersReducerType = {
+    users: []
+}
+
+/*{
     users: [{
         id: v1(),
         photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc96kcLicYy25CFi7P_ocMargwSC_vjRxIMg&usqp=CAU',
@@ -48,7 +53,7 @@ let initialState: UsersReducerType = {
             status: "I'm a boss too",
             location: {city: 'Kiev', country: 'Ukraine'}
         }]
-};
+};*/
 
 const usersReducer = (state: UsersReducerType  = initialState, action: UsersACType) => {
     switch (action.type) {
@@ -73,11 +78,11 @@ const usersReducer = (state: UsersReducerType  = initialState, action: UsersACTy
                     return u;
                 })
             }
-       /* case USERS_ACTION_TYPE.SET_USERS: {
+        case USERS_ACTION_TYPE.SET_USERS: {
             return {
-                ...state, users: [...state.users, ...action.users]
+                ...state, users: [...action.users]
             }
-        }*/
+        }
         default:
             return state;
     }
@@ -93,7 +98,7 @@ type UnfollowACType = {
 }
 type SetUsersACType = {
     type: USERS_ACTION_TYPE.SET_USERS
-    users: string
+    users: Array<UsersStateType>
 }
 export type UsersACType = FollowACType | UnfollowACType | SetUsersACType
 
