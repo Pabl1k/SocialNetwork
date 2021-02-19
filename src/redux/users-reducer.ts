@@ -28,33 +28,6 @@ let initialState: UsersReducerType = {
     users: []
 }
 
-/*{
-    users: [{
-        id: v1(),
-        photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc96kcLicYy25CFi7P_ocMargwSC_vjRxIMg&usqp=CAU',
-        followed: false,
-        fullName: 'Dmitriy',
-        status: "I'm a boss",
-        location: {city: 'Minsk', country: 'Belarus'}
-    },
-        {
-            id: v1(),
-            photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc96kcLicYy25CFi7P_ocMargwSC_vjRxIMg&usqp=CAU',
-            followed: true,
-            fullName: 'Sasha',
-            status: "I'm a boss too",
-            location: {city: 'Moscow', country: 'Russia'}
-        },
-        {
-            id: v1(),
-            photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc96kcLicYy25CFi7P_ocMargwSC_vjRxIMg&usqp=CAU',
-            followed: false,
-            fullName: 'Andrey',
-            status: "I'm a boss too",
-            location: {city: 'Kiev', country: 'Ukraine'}
-        }]
-};*/
-
 const usersReducer = (state: UsersReducerType  = initialState, action: UsersACType) => {
     switch (action.type) {
         case USERS_ACTION_TYPE.FOLLOW: {
