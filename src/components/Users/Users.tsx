@@ -9,8 +9,6 @@ type UsersPropsType = {
     unfollow: (userId: string) => void
     currentPage: number
     onPageChange: (pageNumber: number) => void
-    totalUsersCount: number
-    pageSize: number
 }
 
 export const Users = (props: UsersPropsType) => {

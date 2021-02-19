@@ -1,4 +1,4 @@
-import usersReducer, {followAC, setUsersAC, unfollowAC, UsersReducerType} from "./users-reducer";
+import usersReducer, {follow, setUsers, unfollow, UsersReducerType} from "./users-reducer";
 
 let startState: UsersReducerType
 
@@ -9,14 +9,14 @@ beforeEach( () => {
 })
 
 test('status should be changed to Follow', () => {
-    const action = followAC('1')
+    const action = follow('1')
     const endState = usersReducer(startState, action)
 
     expect(endState.users).toBeTruthy()
 })
 
 test('status should be changed to unfollow', () => {
-    const action = unfollowAC('321')
+    const action = unfollow('321')
     const endState = usersReducer(startState, action)
     expect(endState.users).toBeUndefined()
 })
