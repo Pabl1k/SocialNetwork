@@ -7,3 +7,7 @@
 .selectedPage{
     font-weight: bold;
 }
+
+.unselectedPage{
+    cursor: pointer;
+}
