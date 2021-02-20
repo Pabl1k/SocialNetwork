@@ -9,27 +9,11 @@ export enum DIALOGS_ACTION_TYPE {
 type AddNewDispatchType = {
     type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE
 }
-
 type UpdateNewDispatchType = {
     type: DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY
     body: string
 }
-
 export type DialogsDispatchType = AddNewDispatchType | UpdateNewDispatchType
-
-type DialogsUsersType = {
-    id: string
-    name: string
-}
-type MessageType = {
-    id: string
-    message: string
-}
-type DialogsStateType = {
-    dialogs: Array<DialogsUsersType>
-    messages: Array<MessageType>
-    newDialogsMessage: string
-}
 
 let initialState = {
     dialogs: [
@@ -50,7 +34,7 @@ let initialState = {
     newDialogsMessage: ''
 }
 
-const dialogsReducer = (state: DialogsPageType = initialState, action: any) => {
+const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsDispatchType) => {
     switch (action.type) {
         case DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY: {
             return {

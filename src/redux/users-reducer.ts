@@ -3,14 +3,9 @@ export enum USERS_ACTION_TYPE {
     UNFOLLOW = 'UNFOLLOW',
     SET_USERS = 'SET_USERS',
     SET_CURRENT_PAGE = 'SET_CURRENT_PAGE',
-    SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
     TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 }
 
-export type LocationType = {
-    country: string
-    city: string
-}
 type PhotoSize = {
     small: any
     large: any
@@ -70,10 +65,7 @@ const usersReducer = (state: UsersReducerType = initialState, action: UsersACTyp
             return {
                 ...state, currentPage: action.currentPage
             }
-        /*case USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT:
-            return {
-                ...state, totalUsersCount: action.count
-            }*/
+
         case USERS_ACTION_TYPE.TOGGLE_IS_FETCHING:
             return {
                 ...state, isFetching: action.isFetching
@@ -100,16 +92,10 @@ type SetCurrentPageACType = {
     type: USERS_ACTION_TYPE.SET_CURRENT_PAGE
     currentPage: number
 }
-/*
-type SetTotalUserCountACType = {
-    type: USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT
-    count: number
-}*/
 type setIsFetchingAC = {
     type: USERS_ACTION_TYPE.TOGGLE_IS_FETCHING
     isFetching: boolean
 }
-
 
 export type UsersACType =
     FollowACType
@@ -120,9 +106,21 @@ export type UsersACType =
 
 export const follow = (userId: string): FollowACType => ({type: USERS_ACTION_TYPE.FOLLOW, userId})
 export const unfollow = (userId: string): UnfollowACType => ({type: USERS_ACTION_TYPE.UNFOLLOW, userId})
-export const setUsers = (users: string) => ({type: USERS_ACTION_TYPE.SET_USERS, users})
-export const setCurrentPage = (currentPage: number) => ({type: USERS_ACTION_TYPE.SET_CURRENT_PAGE, currentPage})
-//export const setTotalUsersCount = (totalUsersCount: number) => ({type: USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT, count: totalUsersCount})
-export const toggleIsFetching = (isFetching: boolean) => ({type: USERS_ACTION_TYPE.TOGGLE_IS_FETCHING, isFetching})
+export const setUsers = (users: string): any => ({type: USERS_ACTION_TYPE.SET_USERS, users})
+export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({type: USERS_ACTION_TYPE.SET_CURRENT_PAGE, currentPage})
+export const toggleIsFetching = (isFetching: boolean): setIsFetchingAC => ({type: USERS_ACTION_TYPE.TOGGLE_IS_FETCHING, isFetching})
 
 export default usersReducer;
+
+/* total users count group
+// SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
+/!*case USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT:
+          return {
+              ...state, totalUsersCount: action.count
+          }*!/
+/!*
+type SetTotalUserCountACType = {
+    type: USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT
+    count: number
+}*!/
+//export const setTotalUsersCount = (totalUsersCount: number) => ({type: USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT, count: totalUsersCount})*/

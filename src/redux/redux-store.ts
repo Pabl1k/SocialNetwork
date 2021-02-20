@@ -20,8 +20,6 @@ export type ActionType =
     | USERS_ACTION_TYPE.UNFOLLOW
     | USERS_ACTION_TYPE.SET_USERS
 
-export type DispatchType = (action: ActionType) => void
-
 const reducers = combineReducers({
     profileReducer: profileReducer,
     dialogsReducer: dialogsReducer,
