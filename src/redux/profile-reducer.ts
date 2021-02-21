@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {PostsType, ProfilePageType} from "./store";
+import {AxiosType} from "../components/Profile/ProfileContainer";
 
 export enum PROFILE_ACTION_TYPE {
     ADD_POST = 'ADD-POST',
@@ -16,7 +17,7 @@ type UpdateNewPostTextPostACType = {
 }
 type SetUserProfileACType = {
     type: PROFILE_ACTION_TYPE.SET_USER_PROFILE,
-    profile: any
+    profile: AxiosType | null
 }
 
 let initialState = {
@@ -30,7 +31,7 @@ let initialState = {
     profile: null
 };
 
-const profileReducer = (state: ProfilePageType = initialState, action: ProfileACType) => {
+const profileReducer = (state: ProfilePageType = initialState, action: ProfileACType): ProfilePageType => {
     switch (action.type) {
         case PROFILE_ACTION_TYPE.ADD_POST: {
             const newPost: PostsType = {
@@ -50,6 +51,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
                 newPostText: action.newText
             };
         case PROFILE_ACTION_TYPE.SET_USER_PROFILE:
+            debugger
             return {
                 ...state,
                 profile: action.profile
@@ -61,21 +63,20 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
 
 export type ProfileACType = AddPostACType | UpdateNewPostTextPostACType | SetUserProfileACType;
 
-
 export const addPostAC = (): AddPostACType => {
     return {
         type: PROFILE_ACTION_TYPE.ADD_POST
-    } as const
+    }
 }
 
 export const updateNewPostTextPostAC = (newText: string): UpdateNewPostTextPostACType => {
     return {
         type: PROFILE_ACTION_TYPE.UPDATE_NEW_POST_TEXT,
         newText: newText
-    } as const
+    }
 }
 
-export const setUserProfile = (profile: any): SetUserProfileACType => {
+export const setUserProfile = (profile: AxiosType | null): SetUserProfileACType => {
     return {type: PROFILE_ACTION_TYPE.SET_USER_PROFILE, profile}
 }
 

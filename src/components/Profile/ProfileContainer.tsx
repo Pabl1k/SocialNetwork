@@ -3,6 +3,8 @@ import axios from "axios";
 import {connect} from "react-redux";
 import {setUserProfile} from "../../redux/profile-reducer";
 import Profile from "./Profile";
+import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {RootStateType} from "../../redux/redux-store";
 
 export type AxiosType = {
     "aboutMe": string
@@ -26,22 +28,26 @@ export type AxiosType = {
     }
 }
 
-/*type ProfileContainerType = {
-    setUserProfile: (profile: any) => void
-    profile: any
-}*/
+type PathParamType = {
+    userId: string
+}
 
+type OwnProps = {}
+type PropsType =RouteComponentProps<PathParamType> & MapDispatchToPropsType & MapStateToPropsType & OwnProps
 type MapStateToPropsType = {
-    profile: AxiosType
+    profile: AxiosType | null
 }
 type MapDispatchToPropsType = {
-    setUserProfile: (profile: any) => void
+    setUserProfile: (profile: AxiosType | null) => void
 }
-type ProfileContainerType = MapStateToPropsType & MapDispatchToPropsType
 
-export class ProfileContainer extends React.Component<ProfileContainerType>{
+ class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2` )
+        let userId = this.props.match.params.userId;
+        if (!userId) {
+            userId = '2';
+        }
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
             .then((response) => {
                 this.props.setUserProfile(response.data);
             });
@@ -49,13 +55,13 @@ export class ProfileContainer extends React.Component<ProfileContainerType>{
 
     render() {
         return (
-                <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props} profile={this.props.profile}/>
         )
     }
 }
 
-let MapStateToProps = (state: any): MapStateToPropsType => ({
-    profile: state.profilePage.profile
+let MapStateToProps = (state: RootStateType): MapStateToPropsType => ({
+    profile: state.profileReducer.profile
 });
 
-connect(MapStateToProps, {setUserProfile})(ProfileContainer);
+export default withRouter(connect<MapStateToPropsType,MapDispatchToPropsType,OwnProps, RootStateType >(MapStateToProps, {setUserProfile})(ProfileContainer));

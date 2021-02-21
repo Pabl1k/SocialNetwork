@@ -4,7 +4,7 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {AxiosType} from "./ProfileContainer";
 
 type PropsType = {
-    profile: AxiosType
+    profile: AxiosType | null
 }
 
 const Profile = (props: PropsType) => {

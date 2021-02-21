@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
+import {AxiosType} from "../components/Profile/ProfileContainer";
 
 export type PostsType = {
     id: string
@@ -18,6 +19,7 @@ export type MessagesType = {
 export type ProfilePageType = {
     posts: Array<PostsType>
     newPostText: string
+    profile: null | AxiosType
 }
 export type DialogsPageType = {
     dialogs: Array<DialogsType>
@@ -47,7 +49,8 @@ const store: StoreType = {
                 {id: v1(), message: 'Blabla', likesCount: 11},
                 {id: v1(), message: 'Dada', likesCount: 11}
             ],
-            newPostText: ''
+            newPostText: '',
+            profile: null,
         },
         dialogsPage: {
             dialogs: [

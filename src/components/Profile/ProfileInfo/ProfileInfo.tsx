@@ -4,7 +4,7 @@ import {Preloader} from "../../Common/Preloader/Preloader";
 import {AxiosType} from "../ProfileContainer";
 
 type PropsType = {
-    profile: AxiosType
+    profile: AxiosType | null
 }
 
 const ProfileInfo = (props: PropsType) => {

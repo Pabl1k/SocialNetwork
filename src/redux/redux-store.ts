@@ -5,11 +5,7 @@ import dialogsReducer from "./dialogs-reducer";
 import usersReducer, {USERS_ACTION_TYPE, UsersReducerType} from "./users-reducer";
 import {DialogsPageType, ProfilePageType} from "./store";
 
-export type RootStateType = {
-    profileReducer: ProfilePageType
-    dialogsReducer: DialogsPageType
-    usersPage: UsersReducerType
-}
+export type RootStateType = ReturnType<typeof reducers>
 
 export type ActionType =
     PROFILE_ACTION_TYPE.ADD_POST

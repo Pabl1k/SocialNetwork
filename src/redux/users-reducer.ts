@@ -7,8 +7,8 @@ export enum USERS_ACTION_TYPE {
 }
 
 type PhotoSize = {
-    small: any
-    large: any
+    small: string | null
+    large: string | null
 }
 export type UsersStateType = {
     id: string
@@ -28,7 +28,7 @@ export type UsersReducerType = {
 
 let initialState: UsersReducerType = {
     users: [],
-    pageSize: 5,
+    pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false
@@ -112,7 +112,7 @@ export const toggleIsFetching = (isFetching: boolean): setIsFetchingAC => ({type
 
 export default usersReducer;
 
-/* total users count group
+/* totalUsersCount group
 // SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
 /!*case USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT:
           return {
