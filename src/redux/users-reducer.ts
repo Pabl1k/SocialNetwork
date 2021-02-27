@@ -3,8 +3,9 @@ export enum USERS_ACTION_TYPE {
     UNFOLLOW = 'UNFOLLOW',
     SET_USERS = 'SET_USERS',
     SET_CURRENT_PAGE = 'SET_CURRENT_PAGE',
-    TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING',
     SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
+    TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING',
+    TOGGLE_FOLLOW_PENDING = 'TOGGLE_FOLLOW_PENDING'
 }
 
 type PhotoSize = {
@@ -25,6 +26,7 @@ export type UsersReducerType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followPending: Array<number>
 }
 
 let initialState: UsersReducerType = {
@@ -32,7 +34,8 @@ let initialState: UsersReducerType = {
     pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: true,
+    followPending: []
 };
 
 const usersReducer = (state: UsersReducerType = initialState, action: UsersACType) => {
@@ -74,6 +77,11 @@ const usersReducer = (state: UsersReducerType = initialState, action: UsersACTyp
             return {
                 ...state, totalUsersCount: action.count
             }
+        case USERS_ACTION_TYPE.TOGGLE_FOLLOW_PENDING:
+            return action.followPending
+                    ? {...state, followPending: [...state.followPending, action.userId]}
+                    : {...state, followPending: [...state.followPending.filter(id => id !== action.userId)]}
+
         default:
             return state;
     }
@@ -104,6 +112,12 @@ type SetTotalUserCountACType = {
     count: number
 }
 
+type ToggleFollowPendingType = {
+    type: USERS_ACTION_TYPE.TOGGLE_FOLLOW_PENDING
+    followPending: boolean
+    userId: number
+}
+
 export type UsersACType =
     FollowACType
     | UnfollowACType
@@ -111,6 +125,7 @@ export type UsersACType =
     | SetCurrentPageACType
     | SetIsFetchingAC
     | SetTotalUserCountACType
+    | ToggleFollowPendingType
 
 export const follow = (userId: string): FollowACType => ({type: USERS_ACTION_TYPE.FOLLOW, userId})
 export const unfollow = (userId: string): UnfollowACType => ({type: USERS_ACTION_TYPE.UNFOLLOW, userId})
@@ -126,6 +141,11 @@ export const toggleIsFetching = (isFetching: boolean): SetIsFetchingAC => ({
 export const setTotalUsersCount = (totalUsersCount: number): SetTotalUserCountACType => ({
     type: USERS_ACTION_TYPE.SET_TOTAL_USERS_COUNT,
     count: totalUsersCount
+})
+export const toggleFollowPending = (followPending: boolean, userId: number): ToggleFollowPendingType => ({
+    type: USERS_ACTION_TYPE.TOGGLE_FOLLOW_PENDING,
+    followPending,
+    userId
 })
 
 export default usersReducer;

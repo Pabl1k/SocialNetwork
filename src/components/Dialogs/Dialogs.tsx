@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
@@ -11,6 +11,7 @@ type PropsType = {
 }
 
 const Dialogs: React.FC<PropsType> = (props) => {
+    useEffect(() => {document.title = 'Messages'}, [])
 
     let state = props.dialogsPage
 

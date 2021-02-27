@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './ProfileInfo.module.css';
 import {Preloader} from "../../Common/Preloader/Preloader";
 import {AxiosType} from "../ProfileContainer";
@@ -8,6 +8,8 @@ type PropsType = {
 }
 
 const ProfileInfo = (props: PropsType) => {
+    useEffect(() => {document.title = '' + props.profile?.fullName}, [props.profile?.fullName]);
+
     if (!props.profile) {
         return <Preloader/>
     }
