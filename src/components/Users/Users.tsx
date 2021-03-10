@@ -3,7 +3,6 @@ import styles from "./Users.module.css";
 import photoForUsers from "../../assets/img/photoForUsers.jpg";
 import {UsersStateType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../API/api";
 
 type UsersPropsType = {
     users: Array<UsersStateType>
@@ -11,12 +10,13 @@ type UsersPropsType = {
     unfollow: (userId: string) => void
     currentPage: number
     onPageChange: (pageNumber: number) => void
-    toggleFollowPending: (followPending: boolean, userId: number) => void
 }
 
 export const Users = (props: UsersPropsType) => {
     //let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-    useEffect(() => {document.title = 'Users'}, [])
+    useEffect(() => {
+        document.title = 'Users'
+    }, [])
 
     let pages = [];
     for (let i = 1; i <= 20; i++) { // pagesCount contains 2018 pages with 5 users each, I've left just 20 pages
@@ -44,27 +44,8 @@ export const Users = (props: UsersPropsType) => {
                         </div>
                         <div>
                     {u.followed
-                        ? <button onClick={() => {
-                            props.toggleFollowPending(true, +(u.id))
-                            usersAPI.unfollowUser(+(u.id))
-                                .then(response => {
-                                    if (response.data.resultCode === 0) {
-                                        props.unfollow(u.id)
-                                    }
-                                    props.toggleFollowPending(false, +(u.id))
-                                });
-
-                        }}>Unfollow</button>
-                        : <button onClick={() => {
-                            props.toggleFollowPending(true, +(u.id))
-                            usersAPI.followUser(+(u.id))
-                                .then(response => {
-                                    if (response.data.resultCode === 0) {
-                                        props.follow(u.id)
-                                    }
-                                    props.toggleFollowPending(false, +(u.id))
-                                });
-                        }}>Follow</button>
+                        ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
+                        : <button onClick={() => props.follow(u.id)}>Follow</button>
                     }
                         </div>
                         </span>

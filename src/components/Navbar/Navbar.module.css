@@ -1,15 +1,29 @@
 .nav {
     grid-area: n;
-    background-color: burlywood;
+    background-color: black;
     padding: 20px;
 }
 
-.item a {
-    color: white;
+.nav_item a {
+    display: block;
+    color: white ;
     text-decoration: none;
+    padding-left: 20px;
+    padding-top: 15px;
+    font-size: 25px;
+    font-family: Arial Rounded MT Bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px gold;
 }
 
-.item a.activeLink {
+.item a.nav_item_activeLink {
     color: gold;
     font-size: 20px;
+}
+
+.nav_item a:hover {
+    color: #fab9b9;
+    background-color: #6b6262;
+    border-radius: 40px;
+    margin-left: 5px;
 }

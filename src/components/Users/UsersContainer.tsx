@@ -1,49 +1,33 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    follow,
+    UsersStateType,
     setCurrentPage,
-    toggleIsFetching,
-    setUsers,
-    unfollow,
-    UsersStateType, toggleFollowPending
+    toggleFollowPending, getUsers, unfollow, follow
 } from "../../redux/users-reducer";
 import {RootStateType} from "../../redux/redux-store";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
-import {usersAPI} from "../../API/api";
 
 type UsersPropsType = {
     users: Array<UsersStateType>
     follow: (userId: string) => void
     unfollow: (userId: string) => void
-    setUsers: (users: string) => void
     setCurrentPage: (pageNumber: number) => void
     pageSize: number
     currentPage: number
     isFetching: boolean
-    toggleIsFetching: (isFetching: boolean) => void
-   toggleFollowPending: (followPending: boolean, userId: number) => void
+    toggleFollowPending: (followPending: boolean, userId: number) => void
+    getUsers: any
 }
 
 class UsersContainer extends React.Component<UsersPropsType> {
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false)
-            this.props.setUsers(data.items)
-        });
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChange = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.toggleIsFetching(true)
-
-        usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
-            this.props.toggleIsFetching(false)
-            this.props.setUsers(data.items)
-        });
+        this.props.getUsers(pageNumber, this.props.pageSize);
     }
 
     render() {
@@ -54,7 +38,6 @@ class UsersContainer extends React.Component<UsersPropsType> {
                    unfollow={this.props.unfollow}
                    currentPage={this.props.currentPage}
                    onPageChange={this.onPageChange}
-                   toggleFollowPending={this.props.toggleFollowPending}
             />
         </>
     }
@@ -72,4 +55,4 @@ let MapStateToProps = (state: RootStateType) => {
 }
 
 export default connect(MapStateToProps,
-    {follow, unfollow, setUsers, setCurrentPage, toggleIsFetching, toggleFollowPending})(UsersContainer)
+    {follow, unfollow, setCurrentPage, toggleFollowPending, getUsers})(UsersContainer)

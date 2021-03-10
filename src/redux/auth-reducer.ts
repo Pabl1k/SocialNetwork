@@ -1,3 +1,5 @@
+import {authAPI} from "../API/api";
+
 export enum AUTH_ACTION_TYPE {
     SET_USER_DATA= 'SET_USER_DATA'
 }
@@ -37,3 +39,12 @@ type SetUserDataType = {
 type AuthReducerACType = SetUserDataType
 
 export const setAuthUserData = (userId: number | null, email: string | null, login: string | null): SetUserDataType => ({type: AUTH_ACTION_TYPE.SET_USER_DATA, data: {userId, email, login}})
+
+export const getAuthUserData = () => (dispatch: any) => {
+    authAPI.me().then(response => {
+        if (response.data.resultCode === 0) {
+            let {id, email, login } = response.data.data;
+            dispatch(setAuthUserData(id, email, login))
+        }
+    });
+}

@@ -1,17 +1,23 @@
 .dialogs {
     display: grid;
     grid-template-columns: 2fr 10fr;
+    padding-top: 15px;
 }
 
-.dialogsItems {
-    padding: 10px;
-    color: white;
+.messages{
+    color: red;
 }
 
-.dialogsItems .active {
-    color: gold;
+.dialogsItems a{
+    text-decoration: none;
+    font-size: 20px;
+    padding-left: 15px;
+    color: yellow;
 }
 
-.messages {
-    padding: 10px;
+.dialogsItems a:hover{
+    text-decoration: none;
+    font-size: 20px;
+    color: #b7612b;
+    padding-left: 20px;
 }
