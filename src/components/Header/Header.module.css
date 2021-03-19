@@ -15,4 +15,13 @@
     color: #fff;
 }
 
+.login{
+    color: #fff;
+}
+.login:hover{
+    color: green;
+}
 
+.server{
+    color: lightgreen;
+}

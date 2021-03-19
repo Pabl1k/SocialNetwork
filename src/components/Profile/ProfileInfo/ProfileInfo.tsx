@@ -9,7 +9,9 @@ type PropsType = {
 
 const ProfileInfo = (props: PropsType) => {
     useEffect(() => {
-        document.title = `${props.profile?.fullName}`
+        document.title = document.title = props.profile?.fullName === undefined
+            ? 'page loading'
+            : `${props.profile?.fullName}`
     }, [props.profile?.fullName]);
     if (!props.profile) {
         return <Preloader/>

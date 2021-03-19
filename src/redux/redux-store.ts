@@ -5,7 +5,9 @@ import usersReducer from "./users-reducer";
 import {authReducer} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk"
 
-export type RootStateType = ReturnType<typeof reducers>
+type ReducersType = typeof reducers
+
+export type RootStateType = ReturnType<ReducersType>
 
 const reducers = combineReducers({
     profileReducer: profileReducer,

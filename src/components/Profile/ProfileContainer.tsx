@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {connect} from "react-redux";
 import {setUserProfile} from "../../redux/profile-reducer";
 import Profile from "./Profile";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {RootStateType} from "../../redux/redux-store";
 import {profileAPI} from "../../API/api";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 export type AxiosType = {
     "aboutMe": string
@@ -37,6 +39,7 @@ type PropsType = RouteComponentProps<PathParamType> & MapDispatchToPropsType & M
 type MapStateToPropsType = {
     profile: AxiosType | null
 }
+
 type MapDispatchToPropsType = {
     setUserProfile: (profile: AxiosType | null) => void
 }
@@ -47,7 +50,6 @@ class ProfileContainer extends React.Component<PropsType> {
         if (!userId) {
             userId = '2';
         }
-        //this.props.getUserProfile()
         profileAPI.getProfile(+(userId)).then((response) => {
             this.props.setUserProfile(response.data);
         });
@@ -59,9 +61,12 @@ class ProfileContainer extends React.Component<PropsType> {
         )
     }
 }
-
 let MapStateToProps = (state: RootStateType): MapStateToPropsType => ({
-    profile: state.profileReducer.profile
+    profile: state.profileReducer.profile,
 });
 
-export default withRouter(connect<MapStateToPropsType, MapDispatchToPropsType, OwnProps, RootStateType>(MapStateToProps, {setUserProfile})(ProfileContainer));
+export default compose<ComponentType>(
+    connect<MapStateToPropsType, MapDispatchToPropsType, OwnProps, RootStateType>(MapStateToProps, {setUserProfile}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer);

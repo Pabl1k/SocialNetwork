@@ -1,4 +1,5 @@
 import {usersAPI} from "../API/api";
+import {Dispatch} from "redux";
 
 export enum USERS_ACTION_TYPE {
     FOLLOW = 'FOLLOW',
@@ -150,7 +151,7 @@ export const toggleFollowPending = (followPending: boolean, userId: number): Tog
 })
 
 export const getUsers = (currentPage: number, pageSize: number) => { // thunk
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleIsFetching(true));
 
         usersAPI.getUsers(currentPage, pageSize).then(data => {
@@ -161,7 +162,7 @@ export const getUsers = (currentPage: number, pageSize: number) => { // thunk
 }
 
 export const follow = (userId: string) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleFollowPending(true, +(userId)))
         usersAPI.followUser(+(userId))
             .then(response => {
@@ -174,7 +175,7 @@ export const follow = (userId: string) => {
 }
 
 export const unfollow = (userId: string) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         dispatch(toggleFollowPending(true, +(userId)))
         usersAPI.unfollowUser(+(userId))
             .then(response => {

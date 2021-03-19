@@ -4,7 +4,7 @@ import profileReducer, {addPostAC, updateNewPostTextPostAC} from "./profile-redu
 
 let startState: ProfilePageType
 
-beforeEach(() => {
+/*beforeEach(() => {
     startState = {
         posts: [
             {id: v1(), message: 'Hi, how are you?', likesCount: 12},
@@ -14,7 +14,7 @@ beforeEach(() => {
         ],
         newPostText: ''
     }
-})
+})*/
 
 test('post should be added to posts array', () => {
     const action = addPostAC();

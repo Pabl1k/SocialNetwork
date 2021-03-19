@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {PostsType, ProfilePageType} from "./store";
 import {AxiosType} from "../components/Profile/ProfileContainer";
 import {profileAPI} from "../API/api";
+import {Dispatch} from "redux";
 
 export enum PROFILE_ACTION_TYPE {
     ADD_POST = 'ADD-POST',
@@ -81,7 +82,7 @@ export const setUserProfile = (profile: AxiosType | null): SetUserProfileACType 
     return {type: PROFILE_ACTION_TYPE.SET_USER_PROFILE, profile}
 }
 
-export const getUserProfile = (userId: number) => (dispatch: any) => {
+export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
     profileAPI.getProfile(+(userId)).then((response) => {
        dispatch(setUserProfile(response.data));
     });
