@@ -9,7 +9,7 @@ type PropsType = {
     dialogsPage: DialogsPageType
     sendMessage: () => void
     updateNewDialogsPageMessage: (text: string) => void
-    isAuth: boolean | undefined
+    isAuth: boolean
 }
 
 const Dialogs: React.FC<PropsType> = (props) => {
@@ -29,7 +29,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
         props.updateNewDialogsPageMessage(body)
     }
 
-    if(!props.isAuth){
+    if(props.isAuth){
         return <Redirect to={'/login'}/>
     }
 
