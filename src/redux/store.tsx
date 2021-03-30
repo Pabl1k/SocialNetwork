@@ -20,6 +20,7 @@ export type ProfilePageType = {
     posts: Array<PostsType>
     newPostText: string
     profile: null | AxiosType
+    status: string
 }
 export type DialogsPageType = {
     dialogs: Array<DialogsType>
@@ -51,6 +52,7 @@ const store: StoreType = {
             ],
             newPostText: '',
             profile: null,
+            status: ''
         },
         dialogsPage: {
             dialogs: [

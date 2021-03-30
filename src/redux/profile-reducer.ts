@@ -1,13 +1,14 @@
 import {v1} from "uuid";
 import {PostsType, ProfilePageType} from "./store";
 import {AxiosType} from "../components/Profile/ProfileContainer";
-import {profileAPI} from "../API/api";
+import {profileAPI, usersAPI} from "../API/api";
 import {Dispatch} from "redux";
 
 export enum PROFILE_ACTION_TYPE {
     ADD_POST = 'ADD-POST',
     UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT',
-    SET_USER_PROFILE = 'SET_USER_PROFILE'
+    SET_USER_PROFILE = 'SET_USER_PROFILE',
+    SET_STATUS = 'SET_STATUS'
 }
 
 type AddPostACType = {
@@ -21,6 +22,10 @@ type SetUserProfileACType = {
     type: PROFILE_ACTION_TYPE.SET_USER_PROFILE,
     profile: AxiosType | null
 }
+type SetStatusACType = {
+    type: PROFILE_ACTION_TYPE.SET_STATUS
+    status: string
+}
 
 let initialState = {
     posts: [
@@ -30,7 +35,8 @@ let initialState = {
         {id: v1(), message: 'Dada', likesCount: 11}
     ],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ''
 };
 
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileACType): ProfilePageType => {
@@ -51,9 +57,13 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
             return {
                 ...state,
                 newPostText: action.newText
+            }
+        case PROFILE_ACTION_TYPE.SET_STATUS:
+            return {
+                ...state,
+                status: action.status
             };
         case PROFILE_ACTION_TYPE.SET_USER_PROFILE:
-            debugger
             return {
                 ...state,
                 profile: action.profile
@@ -63,29 +73,42 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
     }
 }
 
-export type ProfileACType = AddPostACType | UpdateNewPostTextPostACType | SetUserProfileACType;
+export type ProfileACType = AddPostACType | UpdateNewPostTextPostACType | SetUserProfileACType | SetStatusACType;
 
 export const addPostAC = (): AddPostACType => {
     return {
         type: PROFILE_ACTION_TYPE.ADD_POST
     }
 }
-
 export const updateNewPostTextPostAC = (newText: string): UpdateNewPostTextPostACType => {
     return {
         type: PROFILE_ACTION_TYPE.UPDATE_NEW_POST_TEXT,
         newText: newText
     }
 }
-
 export const setUserProfile = (profile: AxiosType | null): SetUserProfileACType => {
     return {type: PROFILE_ACTION_TYPE.SET_USER_PROFILE, profile}
 }
-
+export const setStatus = (status: string): SetStatusACType => ({type: PROFILE_ACTION_TYPE.SET_STATUS, status})
 export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
-    profileAPI.getProfile(+(userId)).then((response) => {
-       dispatch(setUserProfile(response.data));
-    });
+    usersAPI.getProfile(userId)
+        .then((response) => {
+            dispatch(setUserProfile(response.data));
+        });
+}
+export const getStatus = (userId: number) => (dispatch: Dispatch) => {
+    profileAPI.getStatus(userId)
+        .then(response => {
+            dispatch(setStatus(response.data))
+        })
+}
+export const updateStatus = (status: string) => (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setStatus(status))
+            }
+        })
 }
 
 export default profileReducer;
