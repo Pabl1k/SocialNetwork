@@ -28,7 +28,15 @@ export class ProfileStatus extends React.Component<PropsType> {
         })
     }
 
+    componentDidUpdate(prevProps: PropsType, prevState: { editMode: boolean, status: string }) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({status: this.props.status})
+        }
+        console.log('componentDidUpdate')
+    }
+
     render() {
+        console.log('render')
         return (
             <div>
                 {!this.state.editMode
@@ -38,7 +46,8 @@ export class ProfileStatus extends React.Component<PropsType> {
                     </div>
                     :
                     <div>
-                        <input onChange={this.onStatusChange} autoFocus={true} value={this.props.status} onBlur={this.deactivateEditMode} />
+                        <input onChange={this.onStatusChange} autoFocus={true} value={this.props.status}
+                               onBlur={this.deactivateEditMode}/>
                     </div>
                 }
             </div>
