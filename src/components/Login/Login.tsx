@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import style from "./Login.module.css"
 import {reduxForm, Field, InjectedFormProps} from "redux-form";
+import {Input} from "../Common/FormsControl/FormsControl";
+import {required} from "../../utils/validation/Validators";
 
 export const Login = () => {
     useEffect(() => {
@@ -29,13 +31,17 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         <div>
             <form onSubmit={props.handleSubmit}>
                 <div>
-                    <Field placeholder={'Login'} name={'login'} component={'input'}/>
+                    <Field placeholder={'Login'}
+                           name={'login'}
+                           component={Input}
+                           validate={[required]}
+                    />
                 </div>
                 <div>
-                    <Field placeholder={'Password'} name={'password'} component={'input'}/> {/*type={'password'}*/}
+                    <Field placeholder={'Password'} name={'password'} component={Input} validate={[required]} /> {/*type={'password'}*/}
                 </div>
                 <div>
-                    <Field type={'checkbox'} component={'input'} name={'rememberMe'}/> remember me
+                    <Field type={'checkbox'} name={'rememberMe'} component={Input} validate={[required]}/> remember me
                 </div>
                 <div>
                     <button className={style.button}>Login</button>
