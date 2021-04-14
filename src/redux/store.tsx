@@ -18,14 +18,12 @@ export type MessagesType = {
 }
 export type ProfilePageType = {
     posts: Array<PostsType>
-    newPostText: string
     profile: null | AxiosType
     status: string
 }
 export type DialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
-    newDialogsMessage: string
 }
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -50,7 +48,6 @@ const store: StoreType = {
                 {id: v1(), message: 'Blabla', likesCount: 11},
                 {id: v1(), message: 'Dada', likesCount: 11}
             ],
-            newPostText: '',
             profile: null,
             status: ''
         },
@@ -70,7 +67,6 @@ const store: StoreType = {
                 {id: v1(), message: 'Yo'},
                 {id: v1(), message: 'Yo'}
             ],
-            newDialogsMessage: ''
         }
     },
     _onChange() {

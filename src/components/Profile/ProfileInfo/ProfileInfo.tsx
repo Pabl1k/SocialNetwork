@@ -37,7 +37,6 @@ const ProfileInfo = (props: PropsType) => {
                 <div>{props.profile.aboutMe}</div>
 
                 <span className={s.subject}>Looking for a job: {props.profile.lookingForAJob ? 'Yes' : 'No'}</span>
-                {/*<input type='checkbox' checked={props.profile.lookingForAJob}/>*/}
 
                 <div className={s.subject}>My contacts:</div>
                 <div>{props.profile.contacts.facebook}</div>

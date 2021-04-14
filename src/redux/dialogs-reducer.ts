@@ -3,17 +3,14 @@ import {DialogsPageType} from "./store";
 
 export enum DIALOGS_ACTION_TYPE {
     ADD_NEW_DIALOGS_MESSAGE = 'ADD-NEW-DIALOGS-MESSAGE',
-    UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-DIALOGS-MESSAGE'
 }
 
 type AddNewDispatchType = {
     type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE
+    newDialogsMessage: string
 }
-type UpdateNewDispatchType = {
-    type: DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY
-    body: string
-}
-export type DialogsDispatchType = AddNewDispatchType | UpdateNewDispatchType
+
+export type DialogsDispatchType = AddNewDispatchType
 
 let initialState = {
     dialogs: [
@@ -31,38 +28,24 @@ let initialState = {
         {id: v1(), message: 'Yo'},
         {id: v1(), message: 'Yo'}
     ],
-    newDialogsMessage: ''
 }
 
 const dialogsReducer = (state: DialogsPageType = initialState, action: DialogsDispatchType) => {
     switch (action.type) {
-        case DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY: {
-            return {
-                ...state,
-                newDialogsMessage: action.body
-            };
-        }
         case DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE:
-            let stateCopy = {...state};
-            let body = stateCopy.newDialogsMessage;
+            let body = action.newDialogsMessage;
             return {
                 ...state,
-                newDialogsMessage: '',
                 messages: [...state.messages, {id: v1(), message: body}]
             };
         default:
             return state;
     }
 }
-export const AddNewDialogsPageMessageAC = ():AddNewDispatchType => {
+export const AddNewDialogsPageMessageAC = (newDialogsMessage: string):AddNewDispatchType => {
     return {
-        type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE
-    } as const
-}
-export const updateNewDialogsPageMessageAC = (body: string): UpdateNewDispatchType => {
-    return {
-        type: DIALOGS_ACTION_TYPE.UPDATE_NEW_MESSAGE_BODY,
-        body: body
+        type: DIALOGS_ACTION_TYPE.ADD_NEW_DIALOGS_MESSAGE,
+        newDialogsMessage
     } as const
 }
 

@@ -6,18 +6,15 @@ import {Dispatch} from "redux";
 
 export enum PROFILE_ACTION_TYPE {
     ADD_POST = 'ADD-POST',
-    UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT',
     SET_USER_PROFILE = 'SET_USER_PROFILE',
     SET_STATUS = 'SET_STATUS'
 }
 
 type AddPostACType = {
     type: PROFILE_ACTION_TYPE.ADD_POST,
+    newPost: string
 }
-type UpdateNewPostTextPostACType = {
-    type: PROFILE_ACTION_TYPE.UPDATE_NEW_POST_TEXT,
-    newText: string
-}
+
 type SetUserProfileACType = {
     type: PROFILE_ACTION_TYPE.SET_USER_PROFILE,
     profile: AxiosType | null
@@ -34,7 +31,6 @@ let initialState = {
         {id: v1(), message: 'Blabla', likesCount: 11},
         {id: v1(), message: 'Dada', likesCount: 11}
     ],
-    newPostText: '',
     profile: null,
     status: ''
 };
@@ -44,20 +40,14 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
         case PROFILE_ACTION_TYPE.ADD_POST: {
             const newPost: PostsType = {
                 id: v1(),
-                message: state.newPostText,
+                message: action.newPost,
                 likesCount: 0
             };
             return {
                 ...state,
                 posts: [newPost, ...state.posts],
-                newPostText: ''
             }
         }
-        case PROFILE_ACTION_TYPE.UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
-            }
         case PROFILE_ACTION_TYPE.SET_STATUS:
             return {
                 ...state,
@@ -73,19 +63,15 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
     }
 }
 
-export type ProfileACType = AddPostACType | UpdateNewPostTextPostACType | SetUserProfileACType | SetStatusACType;
+export type ProfileACType = AddPostACType | SetUserProfileACType | SetStatusACType;
 
-export const addPostAC = (): AddPostACType => {
+export const addPostAC = (newPost: string): AddPostACType => {
     return {
-        type: PROFILE_ACTION_TYPE.ADD_POST
+        type: PROFILE_ACTION_TYPE.ADD_POST,
+        newPost
     }
 }
-export const updateNewPostTextPostAC = (newText: string): UpdateNewPostTextPostACType => {
-    return {
-        type: PROFILE_ACTION_TYPE.UPDATE_NEW_POST_TEXT,
-        newText: newText
-    }
-}
+
 export const setUserProfile = (profile: AxiosType | null): SetUserProfileACType => {
     return {type: PROFILE_ACTION_TYPE.SET_USER_PROFILE, profile}
 }
