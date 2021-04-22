@@ -1,6 +1,5 @@
 import {ProfilePageType} from "./store";
-import {v1} from "uuid";
-import profileReducer, {addPostAC, updateNewPostTextPostAC} from "./profile-reducer";
+import profileReducer, {addPostAC} from "./profile-reducer";
 
 let startState: ProfilePageType
 
@@ -16,16 +15,16 @@ let startState: ProfilePageType
     }
 })*/
 
-test('post should be added to posts array', () => {
-    const action = addPostAC();
-    const endState = profileReducer(startState, action);
-
-    expect(endState.posts.length).toBe(5)
-})
-
-test('', () => {
-    const action = updateNewPostTextPostAC('test');
-    const endState = profileReducer(startState, action);
-
-    expect(endState.newPostText).toBe('test')
-})
+// test('post should be added to posts array', () => {
+//     const action = addPostAC();
+//     const endState = profileReducer(startState, action);
+//
+//     expect(endState.posts.length).toBe(5)
+// })
+//
+// test('', () => {
+//     const action = updateNewPostTextPostAC('test');
+//     const endState = profileReducer(startState, action);
+//
+//     expect(endState.newPostText).toBe('test')
+// })

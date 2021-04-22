@@ -131,7 +131,7 @@ export type UsersACType =
 
 export const followSuccess = (userId: string): FollowACType => ({type: USERS_ACTION_TYPE.FOLLOW, userId})
 export const unfollowSuccess = (userId: string): UnfollowACType => ({type: USERS_ACTION_TYPE.UNFOLLOW, userId})
-export const setUsers = (users: string): any => ({type: USERS_ACTION_TYPE.SET_USERS, users})
+export const setUsers = (users: Array<UsersStateType>): SetUsersACType => ({type: USERS_ACTION_TYPE.SET_USERS, users})
 export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({
     type: USERS_ACTION_TYPE.SET_CURRENT_PAGE,
     currentPage

@@ -1,47 +1,45 @@
 import React, {useEffect} from "react";
 import style from "./Login.module.css"
-import {reduxForm, Field, InjectedFormProps} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input} from "../Common/FormsControl/FormsControl";
 import {required} from "../../utils/validation/Validators";
+import {connect} from "react-redux";
+import {loginUserTC} from "../../redux/auth-reducer";
+import {RootStateType} from "../../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
-export const Login = () => {
-    useEffect(() => {
-        document.title = 'Login'
-    }, [])
-
-    const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
-    }
-    return (
-        <div className={style.loginPage}>
-            <h1 className={style.login}>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
-    )
-}
-
-type FormDataType = {
-    login: string
+type LoginFormDataType = {
+    email: string
     password: string
     rememberMe: boolean
 }
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = (props) => {
     return (
         <div>
             <form onSubmit={props.handleSubmit}>
-                <div>
-                    <Field placeholder={'Login'}
-                           name={'login'}
+                <div className={style.email}>
+                    <Field placeholder={'Email'}
+                           name={'email'}
                            component={Input}
                            validate={[required]}
-                    />
+                           value='pavezap@gmail.com'
+                    /> pavezap@gmail.com
+                </div>
+                <div className={style.password}>
+                    <Field placeholder={'Password'}
+                           name={'password'}
+                           type={'password'}
+                           component={Input}
+                           validate={[required]}
+                           value='parolOtServira'
+                    /> parolOtServira
                 </div>
                 <div>
-                    <Field placeholder={'Password'} name={'password'} component={Input} validate={[required]} /> {/*type={'password'}*/}
-                </div>
-                <div>
-                    <Field type={'checkbox'} name={'rememberMe'} component={Input} validate={[required]}/> remember me
+                    <Field type={'checkbox'}
+                           name={'rememberMe'}
+                           component={Input}
+                           />remember me
                 </div>
                 <div>
                     <button className={style.button}>Login</button>
@@ -50,5 +48,33 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         </div>
     )
 }
+const LoginReduxForm = reduxForm<LoginFormDataType>({form: 'login'})(LoginForm)
 
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+type LoginPropsType = {
+    isAuth: boolean
+    loginUserTC: (email: string, password: string, rememberMe: boolean) => void
+}
+
+const Login = (props: LoginPropsType) => {
+    useEffect(() => {
+        document.title = 'Login'
+    }, [])
+
+    const onSubmit = (data: LoginFormDataType) => {
+        props.loginUserTC(data.email, data.password, data.rememberMe)
+    }
+    if (props.isAuth){
+        return <Redirect to={'/profile'}/>
+    }
+
+    return (
+        <div className={style.loginPage}>
+            <h1 className={style.login}>Login</h1>
+            <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
+    )
+}
+const mapStateToProps = (state: RootStateType) => ({
+    isAuth: state.auth.isAuth
+})
+export default connect(mapStateToProps, {loginUserTC})(Login)
