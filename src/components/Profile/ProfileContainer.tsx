@@ -30,7 +30,7 @@ export type AxiosType = {
 }
 
 type PathParamType = {
-    userId: string
+    userId: any
 }
 
 type OwnProps = {}
@@ -38,6 +38,8 @@ type PropsType = RouteComponentProps<PathParamType> & MapDispatchToPropsType & M
 type MapStateToPropsType = {
     profile: AxiosType | null
     status: string
+    authorizedUserId: number | null
+    isAuth: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -50,7 +52,7 @@ class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId) {
-            userId = '14441';
+            userId = this.props.authorizedUserId
         }
         this.props.getUserProfile(+userId)
         this.props.getStatus(+userId)
@@ -68,7 +70,9 @@ class ProfileContainer extends React.Component<PropsType> {
 
 let MapStateToProps = (state: RootStateType): MapStateToPropsType => ({
     profile: state.profileReducer.profile,
-    status: state.profileReducer.status
+    status: state.profileReducer.status,
+    authorizedUserId: state.auth.userId,
+    isAuth: state.auth.isAuth
 });
 
 export default compose<ComponentType>(

@@ -11,7 +11,6 @@ export type HeaderType = {
 }
 
 const Header = (props: HeaderType) => {
-    debugger
     return <header className={s.header}>
         <NavLink to={'/profile'}>
             <img
@@ -22,7 +21,7 @@ const Header = (props: HeaderType) => {
                 ? <div>{props.login} - <button onClick={() => {props.logout()}}>Log out</button></div>
                 : <NavLink to={'/login'} className={s.login}>Login</NavLink>}
             <br/>
-            <a href="https://social-network.samuraijs.com/" className={s.server}>server</a>
+            <a href="https://social-network.samuraijs.com/" target='_blank' rel='noreferrer' className={s.server}>server</a>
         </div>
     </header>
 }
