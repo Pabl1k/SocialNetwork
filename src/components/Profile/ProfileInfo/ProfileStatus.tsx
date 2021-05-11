@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 
 type ProfileStatusPropsType = {
     status: string
@@ -8,7 +8,7 @@ type ProfileStatusPropsType = {
 export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
     state = {
         editMode: false,
-        status: ''
+        status: this.props.status
     }
 
     activateEditMode = () => {
@@ -17,15 +17,14 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
         })
     }
     deactivateEditMode = () => {
-        this.props.updateStatus(this.state.status)
         this.setState({
             editMode: false
         });
-
+        this.props.updateStatus(this.state.status)
     }
-    onStatusChange = (newStatus: string) => {
+    onStatusChange = (e: any) => {
         this.setState({
-            status: newStatus
+            status: e.currentTarget.value
         })
     }
 
@@ -40,19 +39,15 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
     render() {
         return (
             <div>
-                {!this.state.editMode
-                    ?
-                    <div>
-                        <span onDoubleClick={this.activateEditMode.bind(this)}>{this.props.status || '---'}</span>
-                    </div>
-                    :
-                    <div>
-                        <input onChange={(e) => this.onStatusChange(e.currentTarget.value)}
-                               autoFocus={true}
-                               value={this.props.status}
-                               onBlur={this.deactivateEditMode.bind(this)}
-                               defaultValue={this.state.status}/>
-                    </div>
+                {!this.state.editMode &&
+                <div>
+                    <span onDoubleClick={ this.activateEditMode }>{this.props.status || "-------"}</span>
+                </div>
+                }
+                {this.state.editMode &&
+                <div>
+                    <input onChange={this.onStatusChange} autoFocus={true} onBlur={ this.deactivateEditMode.bind(this) } value={this.state.status}/>
+                </div>
                 }
             </div>
         )

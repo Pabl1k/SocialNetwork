@@ -5,6 +5,7 @@ import usersReducer, {UsersACType} from "./users-reducer";
 import {authReducer, AuthReducerACType} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
 import { reducer as formReducer } from 'redux-form'
+import appReducer from "./app-reducer";
 
 type ReducersType = typeof reducer
 
@@ -17,6 +18,7 @@ const reducer = combineReducers({
     dialogsReducer: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    app: appReducer,
     form: formReducer
 });
 
